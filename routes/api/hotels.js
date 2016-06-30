@@ -8,4 +8,14 @@ router.get('/', function(req,res,next){
   });
 });
 
+router.get('/:id', function(req,res,next) {
+  Hotel.findOne({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(data) {
+      res.send(data);
+    });
+});
+
 module.exports = router;

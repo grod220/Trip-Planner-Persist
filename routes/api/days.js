@@ -1,6 +1,8 @@
 var router = require('express').Router();
 var Days = require('../../models/day');
 var day_restaurants = require('../../models/day_restaurant');
+var day_activity = require('../../models/day_activity');
+
 
 router.get('/', function(req,res,next){
   //console.log('TEST');
@@ -10,7 +12,7 @@ router.get('/', function(req,res,next){
 });
 
 
-router.get('/:id', function(req, res){
+router.get('/:id', function(req,res){
   console.log(req.params.id);
   var dayToFind = req.params.id;
   Days.findOne({
@@ -22,7 +24,7 @@ router.get('/:id', function(req, res){
   })
   .catch(function(err){
     console.log(err);
-  })
+  });
 });
 
 router.post('/:number', function(req, res, next){
@@ -36,7 +38,7 @@ router.post('/:number', function(req, res, next){
   })
   .catch(function(err){
     console.log(err);
-  })
+  });
 });
 
 router.delete('/:id', function(req, res){
@@ -55,7 +57,7 @@ router.delete('/:id', function(req, res){
   })
   .catch(function(err){
     console.log(err);
-  })
+  });
 });
 
 router.post('/:id/restaurants', function(req, res , next){
@@ -70,7 +72,39 @@ router.post('/:id/restaurants', function(req, res , next){
   })
   .catch(function(err){
     console.log(err);
+  });
+});
+
+router.get('/:id/activities', function(req, res , next){
+  console.log("got them");
+  var idForModel = req.params.id;
+  day_activity.findAll({
+    where: {
+      dayId : idForModel,
+    }
   })
+  .then(function(retrieved){
+    res.send(retrieved);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
+});
+
+router.get('/:id/restaurants', function(req, res , next){
+  console.log("got them");
+  var idForModel = req.params.id;
+  day_restaurants.findAll({
+    where:  {
+    dayId : idForModel,
+    }
+  })
+  .then(function(retrieved){
+    res.send(retrieved);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
 });
 
 router.delete('/:id/restaurants', function(req, res){

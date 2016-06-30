@@ -53,8 +53,25 @@ var daysModule = (function () {
       currentDay = newDay;
       switchTo(currentDay);
     }
-  }
+    // var tripWire = true;
+    $.get('api/days/')
+    .then(function(data) {
+      for (var i=0; i<data.length; i++) {
+        if (newDay.number === data[i].number) {
+          return addDay();
+        }
+      }
+    // if (tripWire) {
+    //   tripWire = false;
+    //   return;
+    // }
+    $.post('api/days/' + newDay.number);
 
+
+
+
+    });
+  }
   function deleteCurrentDay () {
     // prevent deleting last day
     if (days.length < 2 || !currentDay) return;
